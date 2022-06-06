@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+form {
+  margin: 0 2rem 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+
+fieldset {
+  border: 2px groove threedface;
+  padding: 10vmin;
+}
+
+legend {
+  text-align: center;
+  font-size: 2rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+button[type="submit"], button[type="reset"] {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  height: 30px;
+  padding: 0 20px;
+  font: 1rem Arial;
+  color: white;
+}
+
+button[type="submit"] {
+  background-color: #00a400;
+}
+
+button[type="reset"] {
+  background-color: red;
+}
+
+textarea {
+  width: 100%;
+  resize: none;
+  height: 100px;
+  /* min-width: 100%; */
+}
+
+div.break {
+  margin-bottom: 0.5rem;
+}
+
+input.field {
+  width: 100%;
+}

@@ -1,0 +1,19 @@
+{
+	"name": "luan/php-form",
+	"description": "php-form",
+	"autoload": {
+		"files": [
+			"app/helpers/constants.php"
+		],
+		"psr-4": {
+			"app\\": "app"
+		}
+	},
+	"authors": [
+		{
+			"name": "Luan Marques",
+			"email": "luanmarques1789@gmail.com"
+		}
+	],
+	"require": {}
+}
