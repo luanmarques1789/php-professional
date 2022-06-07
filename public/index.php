@@ -1,4 +1,4 @@
 <?php
-require "../vendor/autoload.php";
-echo TESTE;
+require './bootstrap.php';
+router();
 ?>
