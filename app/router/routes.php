@@ -2,9 +2,10 @@
 
 return [
   '/' => 'Home@index',
-  '/user/perfil' => 'User@perfil',
-  '/user/[a-z0-9]+' => 'User@index',
   '/user' => 'User@index',
+  '\/user\/[0-9]+\/profile' => 'User@profile',
+  '\/user\/[0-9\/]+' => 'User@user',
+  '\/user\/[0-9]+\/name\/[a-z]+' => 'User@show',
 ];
 
 ?>

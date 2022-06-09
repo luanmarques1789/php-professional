@@ -8,9 +8,9 @@ function routes(): array
 function router()
 {
   $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+  echo "URI ${uri}<br>";
   $routes = routes();
   $matchedUri = matchExactUriInArrayRoutes($uri, $routes);
-
 
   if (empty($matchedUri)) {
     $matchedUri = matchArrayRoutesViaRegEx($uri, $routes);
@@ -22,12 +22,12 @@ function router()
 }
 
 /**
- * Match static URIs
+ * Static routes: match static URIs
  */
 function matchExactUriInArrayRoutes(string $uri, array $routes): array
 {
   if (array_key_exists($uri, $routes)) {
-    echo "Encontrou o URI: " . $uri;
+    echo "Rotas estáticas: " . $uri;
     return [$uri = $routes[$uri]];
   }
 
@@ -35,16 +35,16 @@ function matchExactUriInArrayRoutes(string $uri, array $routes): array
 }
 
 /**
- * Match dinamic URIs
+ * Dinamic routes: match dinamic URIs
  */
 function matchArrayRoutesViaRegEx(string $uri, array $routes): array
 {
-  return array_filter($routes, function ($value) use ($uri) {
-    $regex = str_replace('/', '\/', ltrim($value, '/'));
-    return preg_match("/^$regex$/", ltrim($uri, '/'));
+  return array_filter($routes, function ($route) use ($uri) {
+    echo "Route: ${route}<br>";
+
+    return preg_match("/^$route$/", $uri);
   },
     ARRAY_FILTER_USE_KEY);
-
 }
 
 
