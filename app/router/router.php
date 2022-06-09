@@ -1,5 +1,7 @@
 <?php
 
+use function PHPSTORM_META\type;
+
 function routes(): array
 {
   return require 'routes.php';
@@ -8,16 +10,13 @@ function routes(): array
 function router()
 {
   $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-  echo "URI ${uri}<br>";
   $routes = routes();
   $matchedUri = matchExactUriInArrayRoutes($uri, $routes);
 
   if (empty($matchedUri)) {
     $matchedUri = matchArrayRoutesViaRegEx($uri, $routes);
+    $params = explodeUriInParams($uri, $matchedUri);
   }
-
-  echo "<br>";
-  var_dump($matchedUri);
   die();
 }
 
@@ -39,13 +38,31 @@ function matchExactUriInArrayRoutes(string $uri, array $routes): array
  */
 function matchArrayRoutesViaRegEx(string $uri, array $routes): array
 {
-  return array_filter($routes, function ($route) use ($uri) {
-    echo "Route: ${route}<br>";
+  return array_filter(
+    $routes,
+    function ($route) use ($uri) {
 
-    return preg_match("/^$route$/", $uri);
-  },
-    ARRAY_FILTER_USE_KEY);
+      return preg_match("/^$route$/", $uri);
+    },
+    ARRAY_FILTER_USE_KEY
+  );
 }
 
+/**
+ * Explode URI in params
+ * 
+ * @return array an array with the params of the URI
+ */
+function explodeUriInParams(string $uri, array $matchedUri): array
+{
+  if (!empty($matchedUri)) {
 
-?>
+    $matchedToGetParams = array_keys($matchedUri)[0];
+
+    $cleanUri = ltrim($uri, "/");
+    $cleanMatchedToGetParams = ltrim(str_replace("\\", "", $matchedToGetParams), "/");
+
+    return array_diff(explode("/", $cleanUri), explode("/", $cleanMatchedToGetParams));
+  }
+  return [];
+}
