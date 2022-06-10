@@ -15,7 +15,13 @@ function router()
 
   if (empty($matchedUri)) {
     $matchedUri = matchArrayRoutesViaRegEx($uri, $routes);
-    $params = explodeUriInParams($uri, $matchedUri);
+
+    // clear '/' of URI's beginning and, after, explode it 
+    $explodedUri = explode("/", ltrim($uri, "/"));
+    $params = formatParams($explodedUri, $matchedUri);
+
+    echo "<br>";
+    var_dump($params);
   }
   die();
 }
@@ -51,18 +57,38 @@ function matchArrayRoutesViaRegEx(string $uri, array $routes): array
 /**
  * Explode URI in params
  * 
+ * @param array $uri cleaned and exploded URI
+ * @param array $matchedUri matched URI by routes
  * @return array an array with the params of the URI
  */
-function explodeUriInParams(string $uri, array $matchedUri): array
+function explodeUriInParams(array $uri, array $matchedUri): array
 {
   if (!empty($matchedUri)) {
 
     $matchedToGetParams = array_keys($matchedUri)[0];
 
-    $cleanUri = ltrim($uri, "/");
     $cleanMatchedToGetParams = ltrim(str_replace("\\", "", $matchedToGetParams), "/");
 
-    return array_diff(explode("/", $cleanUri), explode("/", $cleanMatchedToGetParams));
+    return array_diff($uri, explode("/", $cleanMatchedToGetParams));
   }
   return [];
+}
+
+/**
+ * Convert params' index to params' name
+ * 
+ * @param array $uri cleaned and exploded URI
+ * @param array $matchedUri matched URI by routes
+ * @return array an array with the params of the URI
+ */
+function formatParams(array $uri, array $matchedUri): array
+{
+  $params = explodeUriInParams($uri, $matchedUri);
+  $paramsData = [];
+
+  foreach ($params as $index => $param) {
+    $paramsData[$uri[$index - 1]] = $param;
+  }
+  echo "executou";
+  return $paramsData;
 }
